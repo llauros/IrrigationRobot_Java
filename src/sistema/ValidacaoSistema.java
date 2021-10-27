@@ -3,6 +3,9 @@ package sistema;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import areahorta.Horta;
+import areahorta.Posicao;
+
 /**
  * Classe prevê e trata possíveis erros.
  * 1 - Valida as entradas.
@@ -36,6 +39,141 @@ public class ValidacaoSistema {
 			}
 		}
 		return numeroValido;
+	}
+	
+	
+	// --------------------------------------------------------
+	// --------------- CANTEIROS A IRRIGAR --------------------
+	// --------------------------------------------------------
+	private Posicao[] posicoesValidasParaIrrigar;
+	private Posicao posicaoComBaseNaInterface;
+	private int posValidaPorLinha;
+	private int posValidaPorColuna;
+	private boolean mesmaPosicao;	
+	private int numeroValidoNaAreaDaHorta;
+	
+	/**
+	 * Retorna um número possível dentro da area da horta
+	 * @param horta
+	 * @return
+	 */
+	public int lerEValidarAreDaHorta(Horta horta) {
+		do {
+			numeroValidoNaAreaDaHorta = lerEValidarNumero();
+			if (numeroValidoNaAreaDaHorta > (horta.getLinhas() * horta.getLinhas())) {
+				System.err.print("\nErro: ");
+				System.out.printf("Mas... sua horta tem %d canteiros. Tente novamente.\n",
+						(horta.getLinhas() * horta.getLinhas()));
+				horta.mostrarHorta();
+				sc.nextLine();
+			}
+		} while (numeroValidoNaAreaDaHorta > (horta.getLinhas() * horta.getLinhas()));
+
+		return numeroValidoNaAreaDaHorta;
+	}
+	
+	/**
+	 * Retorna um array de posições (coordenadas) que serão os canteiros para irrigar
+	 * 
+	 * @param horta     (já dimencionada)
+	 * @param posicoues (um array de posicões sem coordenada (null))
+	 * @return
+	 */
+	public Posicao[] posicaoDosCanteirosParaIrrigar(Horta horta, int quantidadeDeCanteirosParaIrrigar) {
+
+		posicoesValidasParaIrrigar = new Posicao[quantidadeDeCanteirosParaIrrigar];
+
+		posValidaPorLinha = 0;
+		posValidaPorColuna = 0;
+		posicaoComBaseNaInterface = new Posicao();
+
+		// ESTRUTURA PARA VALIDAR AS POSICOES DOS CANTEIROS
+		for (int i = 0; i < posicoesValidasParaIrrigar.length; i++) {
+
+			do {
+				System.out.printf("\t%d° Posicao.\n", i + 1);
+
+				// Lendo Numero de LINHAS
+				do {
+					System.out.print("Linha: ");
+					try {
+						posValidaPorLinha = sc.nextInt();
+
+						// Tratando ERROS
+						if (posValidaPorLinha <= 0) {
+							System.err.print("Erro: ");
+							System.out.print("Não posso trabalhar com numeros negativos e nem 0... Tente novamente!\n");
+							posValidaPorLinha = -1;
+							sc.nextLine();
+						}
+						if (posValidaPorLinha > horta.getLinhas()) {
+							System.err.print("\nErro: ");
+							System.out.printf("Ué... sua horta tem %d linhas. Tente novamente.\n", horta.getLinhas());
+							posValidaPorLinha = -1;
+							sc.nextLine();
+						}
+					} catch (InputMismatchException a) {
+						System.err.print("Erro: ");
+						System.out.print("Ops.. parece que você digitou caracteres. Precisamos que digite somente numeros!\n");
+						posValidaPorLinha = -1;
+						sc.nextLine();
+					}
+
+				} while (posValidaPorLinha <= 0 || posValidaPorLinha > horta.getLinhas());
+
+				// Lendo Numero de COLUNAS
+				do {
+					System.out.print("Coluna: ");
+					try {
+						posValidaPorColuna = sc.nextInt();
+
+						if (posValidaPorColuna <= 0) {
+							System.err.print("Erro: ");
+							System.out.print("Não posso trabalhar com numeros negativos e nem 0... Tente novamente!\n");
+							posValidaPorColuna = -1;
+							sc.nextLine();
+						}
+						if (posValidaPorColuna > horta.getColunas()) {
+							System.err.print("\nErro: ");
+							System.out.printf("Ué... sua horta tem %d colunas. Tente novamente.\n", horta.getColunas());
+							posValidaPorColuna = -1;
+							sc.nextLine();
+						}
+					} catch (InputMismatchException a) {
+						System.err.print("Erro: ");
+						System.out.print("Ops.. parece que você digitou caracteres. Precisamos que digite somente numeros!\n");
+						posValidaPorColuna = -1;
+						sc.nextLine();
+					}
+				} while (posValidaPorColuna < 0 || posValidaPorColuna > horta.getColunas());				
+			
+				posValidaPorLinha = posicionarLinhaComBaseNaInterface(posValidaPorLinha,horta);
+				posValidaPorColuna = posicionarColunaComBaseNaInterface(posValidaPorColuna);
+				
+				// TRATANDO POSICOES JA INICIADAS
+				if (i != 0) {
+					if (posicoesValidasParaIrrigar[i - 1].getLinha() + posicoesValidasParaIrrigar[i - 1].getColuna() == posValidaPorLinha + posValidaPorColuna) {
+						System.err.print("Erro: ");
+						System.out.println("Por que irrigar o mesmo canterio? Por favor, irrigue outros.");
+						mesmaPosicao = true;
+					} else {
+						mesmaPosicao = false;
+					}
+				}
+			} while (mesmaPosicao);// Não inicia posição se for repeitida	
+			posicoesValidasParaIrrigar[i] = new Posicao(posValidaPorLinha, posValidaPorColuna);
+		}
+		return posicoesValidasParaIrrigar;
+	}
+	
+	// --------------------------------------------------------
+	// ----- POSICAO BASEADA NA LINHAXCOLUNA DA INTERFACE -----
+	// --------------------------------------------------------
+	public int posicionarLinhaComBaseNaInterface(int posDoUsuario, Horta horta) {
+		return horta.getLinhas() - posDoUsuario;
+	}
+	public int posicionarColunaComBaseNaInterface(int posDoUsuario) {
+		return posDoUsuario - 1;
 	}
 	
 }

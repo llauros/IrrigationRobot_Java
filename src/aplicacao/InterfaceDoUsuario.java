@@ -3,6 +3,7 @@ package aplicacao;
 import java.util.Scanner;
 
 import areahorta.Horta;
+import areahorta.Posicao;
 import sistema.ValidacaoSistema;
 
 /**
@@ -16,11 +17,22 @@ public class InterfaceDoUsuario {
 	Scanner sc = new Scanner(System.in);
 	private ValidacaoSistema validar;
 	
+	private Horta horta;
+	
 	public InterfaceDoUsuario() {
 		validar = new ValidacaoSistema();
 	}
 	
-	// HORTA --------------------------------------------------
+	// DA PRA FAZER COM SET
+	public Horta dimencionarHortaEPosicionarCanteiros() {
+		
+		return horta;
+	}
+	
+	
+	// --------------------------------------------------
+	// ------------------- HORTA ------------------------
+	// --------------------------------------------------
 	Horta hortaDimencionada = new Horta();
 	private int linhasParaHorta;
 	private int colunasParaHorta;
@@ -45,7 +57,42 @@ public class InterfaceDoUsuario {
 		hortaDimencionada.setColunas(colunasParaHorta);
 
 		return hortaDimencionada;
-	}
-	// HORTA --------------------------------------------------
+	} // OKAY
+		
+	// --------------------------------------------------
+	// ------------ CANTEIROS A IRRIGAR -----------------
+	// --------------------------------------------------
+	private Posicao[] posicoesParaIrrigar;
+	private int quantidadeDeCanteirosParaIrrigar;
+
+	/**
+	 * Lê e valida as posições que serão irrigadas
+	 * @param horta
+	 * @return
+	 */
+	public Posicao[] posicoesDasPlantasAIrrigar(Horta horta) {
+
+		// QUANTOS CANTEIROS SERÃO IRRIGADOS
+		System.out.print("\nInforme quantos canteiros precisam ser irrigados: ");
+		quantidadeDeCanteirosParaIrrigar = validar.lerEValidarAreDaHorta(horta);
+		
+
+		// POSICAO (linha x coluna) DOS CANTEIROS
+		System.out.println("\nPerfeito!! Agora, só preciso saber quais canteiros devo irrigar!");
+		System.out.println("Informe as coordenadas (linha-coluna) que deseja irrigar..\n");
+		horta.mostrarHorta();
+
+		System.out.println("\n - - - ");
+		System.out.println(" - - - ");
+		System.out.println(" - - - ");
+		System.out.println(" - - - ");
+
+		// ------- PEGAR POSICOES DOS CANTEIROS
+		posicoesParaIrrigar = validar.posicaoDosCanteirosParaIrrigar(horta, quantidadeDeCanteirosParaIrrigar);
+
+		return posicoesParaIrrigar;
+	} // CATEIROS A IRRIGAR -------------------------------------
+	
+	
 	
 }

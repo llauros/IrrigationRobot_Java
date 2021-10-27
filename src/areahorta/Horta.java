@@ -3,6 +3,7 @@ package areahorta;
 public class Horta {
 	private int linhas;
 	private int colunas;
+	private Posicao[] canteirosParaIrrigar;
 
 	public Horta() {}
 
