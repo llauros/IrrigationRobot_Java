@@ -1,55 +1,37 @@
 package aplicacao;
 
-import java.util.Scanner;
-
 import areahorta.Horta;
 import areahorta.Posicao;
 import sistema.Robo;
 import sistema.ValidacaoSistema;
 
 /**
- * 1 - Classe serve como interface para o usuário.
- * 2 - Apresenta e Recebe informações do usuário
- * 3 - Instancía objetos
+ * Classe serve como interface para o usuário. Apresenta e Recebe informações do usuário. Instancía objetos.
+ * 
  * @author llauro
  */
 public class InterfaceDoUsuario {
 	
-	Scanner sc = new Scanner(System.in);
 	private ValidacaoSistema validar;
-	
-	private Horta horta;
 	
 	public InterfaceDoUsuario() {
 		validar = new ValidacaoSistema();
 	}
 		
-	// DA PRA FAZER COM SET
-	public Horta dimencionarHortaEPosicionarCanteiros() {
-		horta = new Horta();
-		
-		horta = dimencionarHorta();
-		//horta.posico
-		
-		return horta;
-	}
-		
 	// --------------------------------------------------
 	// ------------------- HORTA ------------------------
-	// --------------------------------------------------
-	Horta hortaDimencionada = new Horta();
-	private int linhasParaHorta;
-	private int colunasParaHorta;
-	
+	// --------------------------------------------------	
 	/**
 	 * Retorna uma matriz para dimensionamento da horta
-	 * 
 	 * @return
 	 */
 	public Horta dimencionarHorta() {
-
+		Horta novaHorta;	
+		int linhasParaHorta;
+		int colunasParaHorta;
+		
 		System.out.println("\tBem vindo ao Robot System H&H® - Irrigações Automatizadas	:)\n");
-		System.out.println("Que tal começar pelo tamanha da sua horta?\n");
+		System.out.println("\tQue tal começar pelo tamanha da sua horta?\n");
 
 		System.out.print("Infome a quantidade de linhas: ");
 		linhasParaHorta = validar.lerEValidarNumero();
@@ -57,11 +39,11 @@ public class InterfaceDoUsuario {
 		System.out.print("Infome a quantidade de colunas: ");
 		colunasParaHorta = validar.lerEValidarNumero();
 		
-		hortaDimencionada.setLinhas(linhasParaHorta);
-		hortaDimencionada.setColunas(colunasParaHorta);
-
-		return hortaDimencionada;
-	} // OKAY
+		System.out.print("\n\t...Dimencionando sua horta\n");
+		novaHorta = new Horta(linhasParaHorta, colunasParaHorta);
+		novaHorta.mostrarHorta();
+		return novaHorta;
+	}
 		
 	// --------------------------------------------------
 	// ------------ CANTEIROS A IRRIGAR -----------------
@@ -77,32 +59,20 @@ public class InterfaceDoUsuario {
 	public Posicao[] posicoesDasPlantasAIrrigar(Horta horta) {
 
 		// QUANTOS CANTEIROS SERÃO IRRIGADOS
-		System.out.print("\nInforme quantos canteiros precisam ser irrigados: ");
+		System.out.print("\n\tQuantos canteiros precisam ser irrigados?\nDigite: ");
 		quantidadeDeCanteirosParaIrrigar = validar.lerEValidarAreDaHorta(horta);
 
-		// POSICAO (linha x coluna) DOS CANTEIROS
-		System.out.println("\nPerfeito!! Agora, só preciso saber quais canteiros devo irrigar!");
-		System.out.println("Informe as coordenadas (linha-coluna) que deseja irrigar..\n");
-		//horta.mostrarHorta();
-
-		System.out.println("\n - - - ");
-		System.out.println(" - - - ");
-		System.out.println(" - - - ");
-		System.out.println(" - - - ");
-
-		// ------- PEGAR POSICOES DOS CANTEIROS
+		System.out.println();
+		// PEGAR POSICOES DOS CANTEIROS
+		System.out.println("\tPerfeito! Agora, preciso saber quais canteiros devo irrigar!");
+		System.out.println("\tInforme as coordenadas (linha-coluna) que deseja irrigar...");
 		posicoesParaIrrigar = validar.posicaoDosCanteirosParaIrrigar(horta, quantidadeDeCanteirosParaIrrigar);
 
 		return posicoesParaIrrigar;
-	} // CATEIROS A IRRIGAR -------------------------------------
+	}
 	
-	
-	
-	
-	// --------------------------------------------------
 	// --------------------------------------------------
 	// --------------------- ROBO -----------------------
-	// --------------------------------------------------
 	// --------------------------------------------------
 	private Robo roboConfigurado;
 	private String orientacaoDoRobo;
@@ -116,18 +86,10 @@ public class InterfaceDoUsuario {
 	 */
 	public Robo configurarRobo(Horta horta) {
 		
-		roboConfigurado = new Robo();
-		
-		posicaoInicialRobo = posicionarInicialrRobo(horta);	
-		
-		orientacaoDoRobo = orientacaoInicialrRobo();
-		
-		System.out.println("----------------------");
-	
+		roboConfigurado = new Robo();	
+		posicaoInicialRobo = posicionarInicialrRobo(horta);		
+		orientacaoDoRobo = orientacaoInicialrRobo();	
 		roboConfigurado = new Robo(posicaoInicialRobo, orientacaoDoRobo);
-		
-
-
 		
 		return roboConfigurado;
 	}
@@ -139,7 +101,8 @@ public class InterfaceDoUsuario {
 	 * @return
 	 */
 	private Posicao posicionarInicialrRobo( Horta horta) {
-		System.out.print("Infome a coordenada inicial...");
+		System.out.println();
+		System.out.print("\tInforme qual será a coordenada inicial do robô...\n");
 		return validar.posicaoInicialValidaDoRobo(horta) ;
 	}
 	
@@ -148,11 +111,9 @@ public class InterfaceDoUsuario {
 	 * @return
 	 */
 	private String orientacaoInicialrRobo() {
-		System.out.print("Qual será minha orientação inicial? Norte(N), Sul(S), Leste(L) ou Oeste(O)");
-		System.out.print("\tN S L O");	
+		System.out.println();
+		System.out.print("\tQual será minha orientação inicial? Digite: Norte(N), Sul(S), Leste(L) ou Oeste(O)\nDigite: ");
+			
 		return validar.validarOrientacao();
 	}
-	
-	
-	
 }

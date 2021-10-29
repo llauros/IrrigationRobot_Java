@@ -7,18 +7,20 @@ import areahorta.Horta;
 import areahorta.Posicao;
 
 /**
- * Classe prevê e trata possíveis erros.
- * 1 - Valida as entradas.
- * 2 - Apresenta erros ao usuario.
+ * Classe prevê e trata possíveis erros. 1 - Valida as entradas. 2 - Apresenta
+ * erros ao usuario.
+ * 
  * @author llauro
  */
 public class ValidacaoSistema {
+
 	private Scanner sc = new Scanner(System.in);
-	
 	private int numeroValido;
-	
+
 	/**
-	 * Valida se a entrada do usuario não é string (texto) ou um numero inferior a zero
+	 * Valida se a entrada do usuario não é string (texto) ou um numero inferior a
+	 * zero
+	 * 
 	 * @return
 	 */
 	public int lerEValidarNumero() {
@@ -40,8 +42,7 @@ public class ValidacaoSistema {
 		}
 		return numeroValido;
 	}
-	
-	
+
 	// --------------------------------------------------------
 	// --------------- CANTEIROS A IRRIGAR --------------------
 	// --------------------------------------------------------
@@ -49,31 +50,31 @@ public class ValidacaoSistema {
 	private Posicao posicaoComBaseNaInterface;
 	private int posValidaPorLinha;
 	private int posValidaPorColuna;
-	private boolean mesmaPosicao;	
 	private int numeroValidoNaAreaDaHorta;
-	
+
 	/**
 	 * Retorna um número possível dentro da area da horta
+	 * 
 	 * @param horta
 	 * @return
 	 */
 	public int lerEValidarAreDaHorta(Horta horta) {
 		do {
 			numeroValidoNaAreaDaHorta = lerEValidarNumero();
-			if (numeroValidoNaAreaDaHorta > (horta.getLinhas() * horta.getLinhas())) {
+			if (numeroValidoNaAreaDaHorta > (horta.getLinhas() * horta.getColunas())) {
 				System.err.print("\nErro: ");
 				System.out.printf("Mas... sua horta tem %d canteiros. Tente novamente.\n",
-						(horta.getLinhas() * horta.getLinhas()));
-				//horta.mostrarHorta();
+						(horta.getLinhas() * horta.getColunas()));
+				horta.mostrarHorta();
 				sc.nextLine();
 			}
-		} while (numeroValidoNaAreaDaHorta > (horta.getLinhas() * horta.getLinhas()));
-
+		} while (numeroValidoNaAreaDaHorta > (horta.getLinhas() * horta.getColunas()));
 		return numeroValidoNaAreaDaHorta;
 	}
-	
+
 	/**
-	 * Retorna um array de posições (coordenadas) que serão os canteiros para irrigar
+	 * Retorna um array de posições (coordenadas) que serão os canteiros para
+	 * irrigar
 	 * 
 	 * @param horta     (já dimencionada)
 	 * @param posicoues (um array de posicões sem coordenada (null))
@@ -90,82 +91,84 @@ public class ValidacaoSistema {
 		// ESTRUTURA PARA VALIDAR AS POSICOES DOS CANTEIROS
 		for (int i = 0; i < posicoesValidasParaIrrigar.length; i++) {
 
+			System.out.printf("\t%d° Posicao\n", i + 1);
+
+			// lendo numeros de linhas
 			do {
-				System.out.printf("\t%d° Posicao.\n", i + 1);
+				System.out.print("Linha: ");
+				try {
+					posValidaPorLinha = sc.nextInt();
 
-				// Lendo Numero de LINHAS
-				do {
-					System.out.print("Linha: ");
-					try {
-						posValidaPorLinha = sc.nextInt();
-
-						// Tratando ERROS
-						if (posValidaPorLinha <= 0) {
-							System.err.print("Erro: ");
-							System.out.print("Não posso trabalhar com numeros negativos e nem 0... Tente novamente!\n");
-							posValidaPorLinha = -1;
-							sc.nextLine();
-						}
-						if (posValidaPorLinha > horta.getLinhas()) {
-							System.err.print("\nErro: ");
-							System.out.printf("Ué... sua horta tem %d linhas. Tente novamente.\n", horta.getLinhas());
-							posValidaPorLinha = -1;
-							sc.nextLine();
-						}
-					} catch (InputMismatchException a) {
+					// Tratando ERROS
+					if (posValidaPorLinha <= 0) {
 						System.err.print("Erro: ");
-						System.out.print("Ops.. parece que você digitou caracteres. Precisamos que digite somente numeros!\n");
+						System.out.print("Não posso trabalhar com numeros negativos e nem 0... Tente novamente!\n");
 						posValidaPorLinha = -1;
 						sc.nextLine();
 					}
+					if (posValidaPorLinha > horta.getLinhas()) {
+						System.err.print("\nErro: ");
+						System.out.printf("Ué... sua horta tem %d linhas. Tente novamente.\n", horta.getLinhas());
+						posValidaPorLinha = -1;
+						sc.nextLine();
+					}
+				} catch (InputMismatchException a) {
+					System.err.print("Erro: ");
+					System.out.print(
+							"Ops.. parece que você digitou caracteres. Precisamos que digite somente numeros!\n");
+					posValidaPorLinha = -1;
+					sc.nextLine();
+				}
 
-				} while (posValidaPorLinha <= 0 || posValidaPorLinha > horta.getLinhas());
+			} while (posValidaPorLinha <= 0 || posValidaPorLinha > horta.getLinhas());
 
-				// Lendo Numero de COLUNAS
-				do {
-					System.out.print("Coluna: ");
-					try {
-						posValidaPorColuna = sc.nextInt();
+			// Lendo Numero de COLUNAS
+			do {
+				System.out.print("Coluna: ");
+				try {
+					posValidaPorColuna = sc.nextInt();
 
-						if (posValidaPorColuna <= 0) {
-							System.err.print("Erro: ");
-							System.out.print("Não posso trabalhar com numeros negativos e nem 0... Tente novamente!\n");
-							posValidaPorColuna = -1;
-							sc.nextLine();
-						}
-						if (posValidaPorColuna > horta.getColunas()) {
-							System.err.print("\nErro: ");
-							System.out.printf("Ué... sua horta tem %d colunas. Tente novamente.\n", horta.getColunas());
-							posValidaPorColuna = -1;
-							sc.nextLine();
-						}
-					} catch (InputMismatchException a) {
+					if (posValidaPorColuna <= 0) {
 						System.err.print("Erro: ");
-						System.out.print("Ops.. parece que você digitou caracteres. Precisamos que digite somente numeros!\n");
+						System.out.print("Não posso trabalhar com numeros negativos e nem 0... Tente novamente!\n");
 						posValidaPorColuna = -1;
 						sc.nextLine();
 					}
-				} while (posValidaPorColuna < 0 || posValidaPorColuna > horta.getColunas());				
-			
-				posValidaPorLinha = posicionarLinhaComBaseNaInterface(posValidaPorLinha,horta);
-				posValidaPorColuna = posicionarColunaComBaseNaInterface(posValidaPorColuna);
-				
-				// TRATANDO POSICOES JA INICIADAS
-				if (i != 0) {
-					if (posicoesValidasParaIrrigar[i - 1].getLinha() + posicoesValidasParaIrrigar[i - 1].getColuna() == posValidaPorLinha + posValidaPorColuna) {
-						System.err.print("Erro: ");
-						System.out.println("Por que irrigar o mesmo canterio? Por favor, irrigue outros.");
-						mesmaPosicao = true;
-					} else {
-						mesmaPosicao = false;
+					if (posValidaPorColuna > horta.getColunas()) {
+						System.err.print("\nErro: ");
+						System.out.printf("Ué... sua horta tem %d colunas. Tente novamente.\n", horta.getColunas());
+						posValidaPorColuna = -1;
+						sc.nextLine();
 					}
+				} catch (InputMismatchException a) {
+					System.err.print("Erro: ");
+					System.out.print(
+							"Ops.. parece que você digitou caracteres. Precisamos que digite somente numeros!\n");
+					posValidaPorColuna = -1;
+					sc.nextLine();
 				}
-			} while (mesmaPosicao);// Não inicia posição se for repeitida	
+			} while (posValidaPorColuna < 0 || posValidaPorColuna > horta.getColunas());
+
+			posValidaPorLinha = posicionarLinhaComBaseNaInterface(posValidaPorLinha, horta);
+			posValidaPorColuna = posicionarColunaComBaseNaInterface(posValidaPorColuna);
+
+			// TRATANDO POSICOES JA INICIADAS
+			/*if (i != 0) {
+				if (posicoesValidasParaIrrigar[i - 1].getLinha()
+						+ posicoesValidasParaIrrigar[i - 1].getColuna() == posValidaPorLinha + posValidaPorColuna) {
+					System.err.print("Erro: ");
+					System.out.println("Por que irrigar o mesmo canterio? Por favor, irrigue outros.");
+					mesmaPosicao = true;
+				} else {
+					mesmaPosicao = false;
+				}
+			}*/
+
 			posicoesValidasParaIrrigar[i] = new Posicao(posValidaPorLinha, posValidaPorColuna);
 		}
 		return posicoesValidasParaIrrigar;
 	}
-	
+
 	// --------------------------------------------------------
 	// ----- POSICAO BASEADA NA LINHAXCOLUNA DA INTERFACE -----
 	// --------------------------------------------------------
@@ -175,23 +178,18 @@ public class ValidacaoSistema {
 	public int posicionarColunaComBaseNaInterface(int posDoUsuario) {
 		return posDoUsuario - 1;
 	}
-	
+
 	// --------------------------------------------------------
 	// ------------------------- ROBO -------------------------
 	// --------------------------------------------------------
 	private String orientacaoValidada;
-	
-	
-	
+
 	public Posicao posicaoInicialValidaDoRobo(Horta horta) {
 
 		posValidaPorLinha = 0;
 		posValidaPorColuna = 0;
 		posicaoComBaseNaInterface = new Posicao();
-
-		System.out.println("\nQual minha Posicao? \n");
-
-		// Lendo Numero de LINHAS
+		
 		do {
 			System.out.print("Linha: ");
 			try {
@@ -219,7 +217,6 @@ public class ValidacaoSistema {
 
 		} while (posValidaPorLinha <= 0 || posValidaPorLinha > horta.getLinhas());
 
-		// Lendo Numero de COLUNAS
 		do {
 			System.out.print("Coluna: ");
 			try {
@@ -249,13 +246,11 @@ public class ValidacaoSistema {
 		posValidaPorLinha = posicionarLinhaComBaseNaInterface(posValidaPorLinha, horta);
 		posValidaPorColuna = posicionarColunaComBaseNaInterface(posValidaPorColuna);
 
-		System.out.println(posValidaPorLinha + " " + posValidaPorColuna);
-
 		return posicaoComBaseNaInterface = new Posicao(posValidaPorLinha, posValidaPorColuna);
 	}
-	 
+
 	public String validarOrientacao() {
-		
+
 		do {
 			orientacaoValidada = sc.next();
 
@@ -279,9 +274,5 @@ public class ValidacaoSistema {
 
 		return orientacaoValidada;
 	}
-	
-	
-	
-	
-	
+
 }

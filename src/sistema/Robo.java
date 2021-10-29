@@ -10,15 +10,7 @@ public class Robo {
 	private String orientacaoAtual;
 	private Posicao posicaoAtual;
 	private ArrayList<String> acoes;
-
-	public ArrayList<String> getAcoes() {
-		return acoes;
-	}
-
-	public void setAcoes(ArrayList<String> acoes) {
-		this.acoes = acoes;
-	}
-
+	
 	// VARIAVEIS AUXILIARES
 	private String proximaOrientacao;
 	private String proximaAcao;
@@ -42,11 +34,25 @@ public class Robo {
 		acoes = new ArrayList<String>();
 	}
 
-	public ArrayList<String> meuTrajeto(Posicao[] posicao) {
-		acoes = new ArrayList<String>();
+	public ArrayList<String> meuTrajeto(Posicao[] posicoes) {
+		int quantidadeCanteirosIrrigados = 0;
+		
+		for(int i = 0; i < posicoes.length; i++) {
+			while(quantidadeCanteirosIrrigados < posicoes.length) {
+				proximaAcao(posicoes[i]);
+				if(pontoDeReferencia(posicoes[i]).equals("I")) {
+					proximaAcao(posicoes[i]);
+					quantidadeCanteirosIrrigados++;
+					break;
+				}
+			}
+		}	
 		return acoes;
 	}
-
+	/**
+	 * Meodo orienta e movimenta o robô com base na localização do objeto
+	 * @param posicaoParaIrrigar
+	 */
 	public void proximaAcao(Posicao posicaoParaIrrigar) {
 		String proximaAcaoDoRobo = "";
 		String proximaOrientacao = "";
@@ -58,7 +64,7 @@ public class Robo {
 
 		case "N": // NORTE
 
-			// ESTOU P/ O NORTE /\
+			// ESTOU P/ O NORTE
 			if (getOrientacaoAtual().equals("N")) {
 				// PROXIMA ACAO LOGICA
 				proximaAcaoDoRobo = "M";
@@ -69,32 +75,30 @@ public class Robo {
 				// MOVIMENTANDO (SETANDO NOVA POSICAO)
 				setPosicaoAtual(movimentarRobo("N"));
 
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
-			// ESTOU P/ O SUL \/
+			// ESTOU P/ O SUL
 			if (getOrientacaoAtual().equals("S")) {
-				// PROXIMA ACAO LOGICA - VIRAR D OU E (Robo decide randomicamente)
+				// PROXIMA ACAO LOGICA
 
 				if (gerador.nextInt(2) == 0) {
-					proximaAcaoDoRobo = "D"; // Direita
+					proximaAcaoDoRobo = "D";
 
 					// NOVA ORIENTACAO
-					proximaOrientacao = "O"; // OESTE <-
+					proximaOrientacao = "O";
 					setOrientacaoAtual(proximaOrientacao);
 				} else {
-					proximaAcaoDoRobo = "E";// Esquerda
+					proximaAcaoDoRobo = "E";
 
 					// NOVA ORIENTACAO
-					proximaOrientacao = "L"; // LESTE ->
+					proximaOrientacao = "L";
 					setOrientacaoAtual(proximaOrientacao);
 				}
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
@@ -110,7 +114,6 @@ public class Robo {
 				proximaOrientacao = "N";
 				setOrientacaoAtual(proximaOrientacao);
 
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
@@ -126,7 +129,6 @@ public class Robo {
 				proximaOrientacao = "N";
 				setOrientacaoAtual(proximaOrientacao);
 
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
@@ -136,7 +138,7 @@ public class Robo {
 		// O OBJETO ESTÁ A...
 		case "NL": // NORDESTE
 
-			// ESTOU P/ O NORTE /\
+			// ESTOU P/ O NORTE
 			if (getOrientacaoAtual().equals("N")) {
 				// PROXIMA ACAO LOGICA
 				proximaAcaoDoRobo = "M";
@@ -147,7 +149,6 @@ public class Robo {
 				// MOVIMENTANDO (SETANDO NOVA POSICAO)
 				setPosicaoAtual(movimentarRobo("N"));
 
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
@@ -161,19 +162,15 @@ public class Robo {
 
 				// NOVA ORIENTACAO (SETANDO NOVA ORIENTACAO)
 				proximaOrientacao = "L";
-
 				setOrientacaoAtual(proximaOrientacao);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
 			// ESTOU P/ O LESTE
 			if (getOrientacaoAtual().equals("L")) {
 				// PROXIMA ACAO LOGICA
-				proximaAcaoDoRobo = "M";// Esquerda
+				proximaAcaoDoRobo = "M";
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
@@ -186,7 +183,6 @@ public class Robo {
 				// MOVIMENTANDO (SETANDO NOVA POSICAO)
 				setPosicaoAtual(movimentarRobo("L"));
 
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
@@ -203,19 +199,15 @@ public class Robo {
 
 				setOrientacaoAtual(proximaOrientacao);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
 			}
-
 			break;
 
 		/* SE */
 		// O OBJETO ESTÁ A...
 		case "NO": // NOROESTE
 
-			// ESTOU P/ O NORTE /\
+			// ESTOU P/ O NORTE
 			if (getOrientacaoAtual().equals("N")) {
 				// PROXIMA ACAO LOGICA
 				proximaAcaoDoRobo = "M";
@@ -226,7 +218,6 @@ public class Robo {
 				// MOVIMENTANDO (SETANDO NOVA POSICAO)
 				setPosicaoAtual(movimentarRobo("N"));
 
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
@@ -243,17 +234,13 @@ public class Robo {
 
 				setOrientacaoAtual(proximaOrientacao);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
-
 			}
 
-			// ESTOU P/ O LESTE /\
+			// ESTOU P/ O LESTE
 			if (getOrientacaoAtual().equals("L")) {
 				// PROXIMA ACAO LOGICA
-				proximaAcaoDoRobo = "E";// Esquerda
+				proximaAcaoDoRobo = "E";
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
@@ -263,13 +250,10 @@ public class Robo {
 
 				setOrientacaoAtual(proximaOrientacao);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
-			// ESTOU P/ O OESTE /\
+			// ESTOU P/ O OESTE
 			if (getOrientacaoAtual().equals("O")) {
 				// PROXIMA ACAO LOGICA
 				proximaAcaoDoRobo = "M";//
@@ -277,19 +261,11 @@ public class Robo {
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
-				// NOVA ORIENTACAO (SETANDO NOVA ORIENTACAO)
-
-				/*
-				 * proximaOrientacao = "O"; setOrientacaoAtual(proximaOrientacao);
-				 */
-
 				// MOVIMENTANDO (SETANDO NOVA POSICAO)
 				setPosicaoAtual(movimentarRobo("O"));
 
-				// PARANDO EXECUÇÃO
 				break;
 			}
-
 			break;
 
 		/* SE */
@@ -300,27 +276,23 @@ public class Robo {
 			if (getOrientacaoAtual().equals("N")) {
 				// PROXIMA ACAO LOGICA
 				if (gerador.nextInt(2) == 0) {
-					proximaAcaoDoRobo = "D"; // Direita
+					proximaAcaoDoRobo = "D";
 
 					// NOVA ORIENTACAO
-					proximaOrientacao = "L"; // LESTE <-
+					proximaOrientacao = "L";
 					setOrientacaoAtual(proximaOrientacao);
 				} else {
-					proximaAcaoDoRobo = "E";// Esquerda
+					proximaAcaoDoRobo = "E";
 
 					// NOVA ORIENTACAO
-					proximaOrientacao = "O"; // OESTE ->
+					proximaOrientacao = "O";
 					setOrientacaoAtual(proximaOrientacao);
 				}
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
-
 			}
 
 			// ESTOU P/ O SUL
@@ -331,12 +303,9 @@ public class Robo {
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
-				// NOVA ORIENTACAO (SETANDO NOVA ORIENTACAO)
-
 				// MOVIMENTANDO (SETANDO NOVA POSICAO)
 				setPosicaoAtual(movimentarRobo("S"));
 
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
@@ -352,17 +321,13 @@ public class Robo {
 				proximaOrientacao = "S";
 				setOrientacaoAtual(proximaOrientacao);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
-
 			}
 
 			// ESTOU P/ O OESTE
 			if (getOrientacaoAtual().equals("O")) {
 				// PROXIMA ACAO LOGICA
-				proximaAcaoDoRobo = "E";// Esquerda
+				proximaAcaoDoRobo = "E";
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
@@ -372,13 +337,8 @@ public class Robo {
 
 				setOrientacaoAtual(proximaOrientacao);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
-
 			}
-
 			break;
 
 		/* SE */
@@ -389,18 +349,15 @@ public class Robo {
 			if (getOrientacaoAtual().equals("N")) {
 				// PROXIMA ACAO LOGICA
 
-				proximaAcaoDoRobo = "D"; // Direita
+				proximaAcaoDoRobo = "D";
 
 				// NOVA ORIENTACAO
-				proximaOrientacao = "L"; // LESTE <-
+				proximaOrientacao = "L";
 				setOrientacaoAtual(proximaOrientacao);
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
@@ -412,12 +369,9 @@ public class Robo {
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
-				// NOVA ORIENTACAO (SETANDO NOVA ORIENTACAO)
-
 				// MOVIMENTANDO (SETANDO NOVA POSICAO)
 				setPosicaoAtual(movimentarRobo("S"));
 
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
@@ -429,12 +383,10 @@ public class Robo {
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
-				// NOVA ORIENTACAO (SETANDO NOVA ORIENTACAO)
-
 				// MOVIMENTANDO (SETANDO NOVA POSICAO)
 				setPosicaoAtual(movimentarRobo("L"));
 
-				// PARANDO EXECUÇÃO
+
 				break;
 			}
 
@@ -448,17 +400,13 @@ public class Robo {
 
 				// NOVA ORIENTACAO (SETANDO NOVA ORIENTACAO)
 				proximaOrientacao = "S";
-
 				setOrientacaoAtual(proximaOrientacao);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
 
 			}
-
 			break;
+			
 		/* SE */
 		// O OBJETO ESTÁ A...
 		case "SO": // SUDOESTE
@@ -467,61 +415,51 @@ public class Robo {
 			if (getOrientacaoAtual().equals("N")) {
 				// PROXIMA ACAO LOGICA
 
-				proximaAcaoDoRobo = "E"; // Esquerda
+				proximaAcaoDoRobo = "E";
 
 				// NOVA ORIENTACAO
-				proximaOrientacao = "O"; // OESTE <-
+				proximaOrientacao = "O";
 				setOrientacaoAtual(proximaOrientacao);
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
 			// ESTOU P/ O SUL
 			if (getOrientacaoAtual().equals("S")) {
 				// PROXIMA ACAO LOGICA
-				proximaAcaoDoRobo = "M";//
+				proximaAcaoDoRobo = "M";
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
-				// NOVA ORIENTACAO (SETANDO NOVA ORIENTACAO)
-
 				// MOVIMENTANDO (SETANDO NOVA POSICAO)
 				setPosicaoAtual(movimentarRobo("S"));
 
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
 			// ESTOU P/ O LESTE
 			if (getOrientacaoAtual().equals("L")) {
 				// PROXIMA ACAO LOGICA
-				proximaAcaoDoRobo = "D"; // Direita
+				proximaAcaoDoRobo = "D";
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
 				// NOVA ORIENTACAO (SETANDO NOVA ORIENTACAO)
-				proximaOrientacao = "S"; // SUL <-
+				proximaOrientacao = "S";
 				setOrientacaoAtual(proximaOrientacao);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
-
 			}
 
 			// ESTOU P/ O OESTE
 			if (getOrientacaoAtual().equals("O")) {
 				// PROXIMA ACAO LOGICA
-				proximaAcaoDoRobo = "M";//
+				proximaAcaoDoRobo = "M";
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
@@ -531,11 +469,10 @@ public class Robo {
 				// MOVIMENTANDO (SETANDO NOVA POSICAO)
 				setPosicaoAtual(movimentarRobo("O"));
 
-				// PARANDO EXECUÇÃO
 				break;
 			}
-
 			break;
+			
 		/* SE */
 		// O OBJETO ESTÁ A...
 		case "L": // LESTE
@@ -543,18 +480,15 @@ public class Robo {
 			// ESTOU P/ O NORTE
 			if (getOrientacaoAtual().equals("N")) {
 				// PROXIMA ACAO LOGICA
-				proximaAcaoDoRobo = "D"; // Direita
+				proximaAcaoDoRobo = "D";
 
 				// NOVA ORIENTACAO
-				proximaOrientacao = "L"; // Leste
+				proximaOrientacao = "L";
 				setOrientacaoAtual(proximaOrientacao);
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
 
 			}
@@ -562,20 +496,16 @@ public class Robo {
 			// ESTOU P/ O SUL
 			if (getOrientacaoAtual().equals("S")) {
 				// PROXIMA ACAO LOGICA
-				proximaAcaoDoRobo = "E";// Esquerda
+				proximaAcaoDoRobo = "E";
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
 				// NOVA ORIENTACAO (SETANDO NOVA ORIENTACAO)
-				proximaOrientacao = "L"; // Leste
+				proximaOrientacao = "L";
 				setOrientacaoAtual(proximaOrientacao);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
-
 			}
 
 			// ESTOU P/ O LESTE
@@ -586,31 +516,28 @@ public class Robo {
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
-				// NOVA ORIENTACAO (SETANDO NOVA ORIENTACAO)
-
 				// MOVIMENTANDO (SETANDO NOVA POSICAO)
 				setPosicaoAtual(movimentarRobo("L"));
 
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
-			// ESTOU P/ O OESTE /\
+			// ESTOU P/ O OESTE
 			if (getOrientacaoAtual().equals("O")) {
 				// PROXIMA ACAO LOGICA
 				proximaAcaoDoRobo = "M";
 
 				if (gerador.nextInt(2) == 0) {
-					proximaAcaoDoRobo = "D"; // Direita
+					proximaAcaoDoRobo = "D";
 
 					// NOVA ORIENTACAO
-					proximaOrientacao = "N"; // NORTE
+					proximaOrientacao = "N";
 
 				} else {
-					proximaAcaoDoRobo = "E";// Esquerda
+					proximaAcaoDoRobo = "E";
 
 					// NOVA ORIENTACAO
-					proximaOrientacao = "S"; // SUL
+					proximaOrientacao = "S";
 
 				}
 
@@ -620,9 +547,6 @@ public class Robo {
 				// NOVA ORIENTACAO (SETANDO NOVA ORIENTACAO)
 				setOrientacaoAtual(proximaOrientacao);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
 			}
 			break;
@@ -635,37 +559,30 @@ public class Robo {
 			if (getOrientacaoAtual().equals("N")) {
 				// PROXIMA ACAO LOGICA
 
-				proximaAcaoDoRobo = "E"; // Esquerda
+				proximaAcaoDoRobo = "E";
 
 				// NOVA ORIENTACAO
-				proximaOrientacao = "O"; // OESTE <-
+				proximaOrientacao = "O";
 				setOrientacaoAtual(proximaOrientacao);
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
-
 			}
 
 			// ESTOU P/ O SUL
 			if (getOrientacaoAtual().equals("S")) {
 				// PROXIMA ACAO LOGICA
-				proximaAcaoDoRobo = "D";// Direita
+				proximaAcaoDoRobo = "D";
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
 
 				// NOVA ORIENTACAO (SETANDO NOVA ORIENTACAO)
-				proximaOrientacao = "O"; // OESTE <-
+				proximaOrientacao = "O";
 				setOrientacaoAtual(proximaOrientacao);
 
-				// MOVIMENTANDO (SETANDO NOVA POSICAO)
-
-				// PARANDO EXECUÇÃO
 				break;
 			}
 
@@ -674,23 +591,21 @@ public class Robo {
 				// PROXIMA ACAO LOGICA
 
 				if (gerador.nextInt(2) == 0) {
-					proximaAcaoDoRobo = "D"; // Direita
+					proximaAcaoDoRobo = "D";
 
 					// NOVA ORIENTACAO
-					proximaOrientacao = "S"; // SUL <-
+					proximaOrientacao = "S";
 
 				} else {
-					proximaAcaoDoRobo = "E";// Esquerda
+					proximaAcaoDoRobo = "E";
 
 					// NOVA ORIENTACAO
-					proximaOrientacao = "N"; // NORTE ->
+					proximaOrientacao = "N";
 
 				}
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
-
-				// NOVA ORIENTACAO (SETANDO NOVA ORIENTACAO)
 
 				// MOVIMENTANDO (SETANDO NOVA POSICAO)
 				setOrientacaoAtual(proximaOrientacao);
@@ -706,8 +621,6 @@ public class Robo {
 
 				// ADD COMANDO
 				acoes.add(proximaAcaoDoRobo);
-
-				// NOVA ORIENTACAO (SETANDO NOVA ORIENTACAO)
 
 				// MOVIMENTANDO (SETANDO NOVA POSICAO)
 				setPosicaoAtual(movimentarRobo("O"));
@@ -724,7 +637,13 @@ public class Robo {
 		}
 
 	}
-
+	
+	/**
+	 * Metodo retorna uma nova posição para o robo dependendo da direção do seu movimento.
+	 * 
+	 * @param direcao
+	 * @return
+	 */
 	private Posicao movimentarRobo(String direcao) {
 		Posicao proximaPosicao;
 		novaLinha = getPosicaoAtual().getLinha();
@@ -754,12 +673,13 @@ public class Robo {
 	}
 
 	/**
-	 * O Objeto está a que direção?
+	 * Metodo retorna uma string informando ao robô em que direção está o canteiro
+	 * para irrigar em relação a sua posição
 	 * 
 	 * @param posicaoParaIrrigar
-	 * @return
+	 * @return N, NO, NL, S, SL, SO, L, O, I
 	 */
-	public String pontoDeReferencia(Posicao posicaoParaIrrigar) {
+	private String pontoDeReferencia(Posicao posicaoParaIrrigar) {
 		orientacaoVerticalEmRelacaoAoCanteiroParaIrrigar = "";
 		orientacaoHorizontalEmRelacaoAoCanteiroParaIrrigar = "";
 		orientacaoParaIrrigacao = "";
@@ -774,7 +694,6 @@ public class Robo {
 		}
 
 		if (posicaoAtual.getColuna() == posicaoParaIrrigar.getColuna()) {
-			// ANALISE VERTICAL
 
 			// VERTICAL
 			if (posicaoAtual.getLinha() < posicaoParaIrrigar.getLinha()) {
@@ -796,7 +715,7 @@ public class Robo {
 		}
 
 		if (posicaoAtual.getLinha() == posicaoParaIrrigar.getLinha()) {
-			// ANAlise a Linha
+
 			// HORIZONTAL
 			if (posicaoAtual.getColuna() < posicaoParaIrrigar.getColuna()) {
 				orientacaoHorizontalEmRelacaoAoCanteiroParaIrrigar = "L";
@@ -821,20 +740,23 @@ public class Robo {
 		}
 	}
 
+	//
 	public String getOrientacaoAtual() {
 		return orientacaoAtual;
 	}
-
 	public void setOrientacaoAtual(String orientacaoAtual) {
 		this.orientacaoAtual = orientacaoAtual;
 	}
-
 	public Posicao getPosicaoAtual() {
 		return posicaoAtual;
 	}
-
 	public void setPosicaoAtual(Posicao posicaoAtual) {
 		this.posicaoAtual = posicaoAtual;
 	}
-
+	public ArrayList<String> getAcoes() {
+		return acoes;
+	}
+	public void setAcoes(ArrayList<String> acoes) {
+		this.acoes = acoes;
+	}
 }
