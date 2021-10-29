@@ -64,7 +64,7 @@ public class ValidacaoSistema {
 				System.err.print("\nErro: ");
 				System.out.printf("Mas... sua horta tem %d canteiros. Tente novamente.\n",
 						(horta.getLinhas() * horta.getLinhas()));
-				horta.mostrarHorta();
+				//horta.mostrarHorta();
 				sc.nextLine();
 			}
 		} while (numeroValidoNaAreaDaHorta > (horta.getLinhas() * horta.getLinhas()));
@@ -175,5 +175,113 @@ public class ValidacaoSistema {
 	public int posicionarColunaComBaseNaInterface(int posDoUsuario) {
 		return posDoUsuario - 1;
 	}
+	
+	// --------------------------------------------------------
+	// ------------------------- ROBO -------------------------
+	// --------------------------------------------------------
+	private String orientacaoValidada;
+	
+	
+	
+	public Posicao posicaoInicialValidaDoRobo(Horta horta) {
+
+		posValidaPorLinha = 0;
+		posValidaPorColuna = 0;
+		posicaoComBaseNaInterface = new Posicao();
+
+		System.out.println("\nQual minha Posicao? \n");
+
+		// Lendo Numero de LINHAS
+		do {
+			System.out.print("Linha: ");
+			try {
+				posValidaPorLinha = sc.nextInt();
+
+				// Tratando ERROS
+				if (posValidaPorLinha <= 0) {
+					System.err.print("Erro: ");
+					System.out.print("Não posso trabalhar com numeros negativos e nem 0... Tente novamente!\n");
+					posValidaPorLinha = -1;
+					sc.nextLine();
+				}
+				if (posValidaPorLinha > horta.getLinhas()) {
+					System.err.print("\nErro: ");
+					System.out.printf("Ué... sua horta tem %d linhas. Tente novamente.\n", horta.getLinhas());
+					posValidaPorLinha = -1;
+					sc.nextLine();
+				}
+			} catch (InputMismatchException a) {
+				System.err.print("Erro: ");
+				System.out.print("Ops.. parece que você digitou caracteres. Precisamos que digite somente numeros!\n");
+				posValidaPorLinha = -1;
+				sc.nextLine();
+			}
+
+		} while (posValidaPorLinha <= 0 || posValidaPorLinha > horta.getLinhas());
+
+		// Lendo Numero de COLUNAS
+		do {
+			System.out.print("Coluna: ");
+			try {
+				posValidaPorColuna = sc.nextInt();
+
+				if (posValidaPorColuna <= 0) {
+					System.err.print("Erro: ");
+					System.out.print("Não posso trabalhar com numeros negativos e nem 0... Tente novamente!\n");
+					posValidaPorColuna = -1;
+					sc.nextLine();
+				}
+				if (posValidaPorColuna > horta.getLinhas()) {
+					System.err.print("\nErro: ");
+					System.out.printf("Ué... sua horta tem %d colunas. Tente novamente.\n", horta.getColunas());
+					posValidaPorColuna = -1;
+					sc.nextLine();
+				}
+			} catch (InputMismatchException a) {
+				System.err.print("Erro: ");
+				System.out.print("Ops.. parece que você digitou caracteres. Precisamos que digite somente numeros!\n");
+				posValidaPorColuna = -1;
+				sc.nextLine();
+			}
+
+		} while (posValidaPorColuna < 0 || posValidaPorColuna > horta.getLinhas());
+
+		posValidaPorLinha = posicionarLinhaComBaseNaInterface(posValidaPorLinha, horta);
+		posValidaPorColuna = posicionarColunaComBaseNaInterface(posValidaPorColuna);
+
+		System.out.println(posValidaPorLinha + " " + posValidaPorColuna);
+
+		return posicaoComBaseNaInterface = new Posicao(posValidaPorLinha, posValidaPorColuna);
+	}
+	 
+	public String validarOrientacao() {
+		
+		do {
+			orientacaoValidada = sc.next();
+
+			if (!(orientacaoValidada.toUpperCase().equals("NORTE") || orientacaoValidada.toUpperCase().equals("N")
+					|| orientacaoValidada.toUpperCase().equals("SUL") || orientacaoValidada.toUpperCase().equals("S")
+					|| orientacaoValidada.toUpperCase().equals("LESTE") || orientacaoValidada.toUpperCase().equals("L")
+					|| orientacaoValidada.toUpperCase().equals("OESTE")
+					|| orientacaoValidada.toUpperCase().equals("O"))) {
+				System.err.print("Erro: ");
+				System.out.print("Preciso ser orientado para Norte(N), Sul(S), Leste(L) ou Oeste(O).");
+				orientacaoValidada = "";
+				sc.nextLine();
+			}
+
+		} while (!(orientacaoValidada.toUpperCase().equals("NORTE") || orientacaoValidada.toUpperCase().equals("N")
+				|| orientacaoValidada.toUpperCase().equals("SUL") || orientacaoValidada.toUpperCase().equals("S")
+				|| orientacaoValidada.toUpperCase().equals("LESTE") || orientacaoValidada.toUpperCase().equals("L")
+				|| orientacaoValidada.toUpperCase().equals("OESTE") || orientacaoValidada.toUpperCase().equals("O")));
+
+		orientacaoValidada = String.valueOf(orientacaoValidada.toUpperCase().charAt(0));
+
+		return orientacaoValidada;
+	}
+	
+	
+	
+	
 	
 }
