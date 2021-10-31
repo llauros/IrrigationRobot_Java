@@ -24,7 +24,6 @@ public class Posicao {
 		
 		this.linha = linhaCorretaInterface;
 		this.coluna = colunaCorretaInterface;
-		
 	}
 
 	public int posicionarLinhaComBaseNaInterface(int posDoUsuario, Horta horta) {

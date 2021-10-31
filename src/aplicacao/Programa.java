@@ -15,9 +15,7 @@ public class Programa {
 		Robo roboJazz;
 		Posicao[] posicoesParaIrrigar;
 		Irrigacao irrigar;
-		
-		String resolucaoDoProblema = new String();
-		
+			
 		// Dimencionando Horta
 		hortaJazz = informacoesParaIrrigacao.dimencionarHorta();
 		
@@ -27,30 +25,24 @@ public class Programa {
 		// Configurando Robô	
 		roboJazz = informacoesParaIrrigacao.configurarRobo(hortaJazz);
 		
-		// Configurações para irrigação
+		// Iniciando uma nova irrigação
 		irrigar = new Irrigacao(hortaJazz, roboJazz, posicoesParaIrrigar);
-		resolucaoDoProblema = irrigar.inicializarIrrigacao();
 		
-		System.out.println("Resolução do teste");
-		System.out.println(resolucaoDoProblema);
-			
+		System.out.println("\n\n\tObrigado!\n\tAbraços!");
+		
 		// ------------------------------------------
 		// ---------- AMBIENTE DE TESTES ------------
 		// ------------------------------------------
 		// ------- REPRODUÇÃO DO EXEMPLO DADO -------
+		// ------------------------------------------
 		
-		/*Horta hortaTeste = new Horta(3, 3);
-		Robo roboTeste = new Robo(new Posicao(0, 0), "N");
-		Posicao[] posicoesTeste = {new Posicao(0,1)};
+		/*Horta hortaTeste = new Horta(6, 5);
+		Robo roboTeste = new Robo(new Posicao(3, 3), "N");
+		Posicao[] posicoesTeste = {new Posicao(4,4), new Posicao(0,4), new Posicao(1,3)};	
+		Irrigacao irrigacaoTeste;
 		
-		Irrigacao irrigaraaa = new Irrigacao();
+		hortaTeste.mostrarHortaCompleta(posicoesTeste, roboTeste);
+		irrigacaoTeste = new Irrigacao(hortaTeste, roboTeste, posicoesTeste);*/
 		
-		irrigaraaa = new Irrigacao(hortaTeste, roboTeste, posicoesTeste);
-		irrigaraaa.inicializarIrrigacao();
-		
-		System.out.println(irrigaraaa.inicializarIrrigacao());*/
-		
-		//hortaAA.mostrarHortaCompleta(posicoesAAA, roboAA);
-		//hortaAA.mostrarHortaComRobo(roboAA);
 	}
 }

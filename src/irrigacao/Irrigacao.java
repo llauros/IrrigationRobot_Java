@@ -13,6 +13,8 @@ public class Irrigacao {
 	ArrayList<String> trajetoFeitoPeloRobo;
 	String ultimaOrientacaoDoRobo;
 	
+	String resolucaoDoProblema;
+	
 	public Irrigacao() {}
 	
 	public Irrigacao(Horta horta, Robo robo, Posicao[] posicoesParaIrrigar) {
@@ -20,30 +22,26 @@ public class Irrigacao {
 		this.robo = robo;
 		this.posicoesParaIrrigar = posicoesParaIrrigar;
 		trajetoFeitoPeloRobo = new ArrayList<String>();
+		ultimaOrientacaoDoRobo = new String();
+		resolucaoDoProblema = new String();
+		
+		inicializarIrrigacao();
 	}
 	
-	public String inicializarIrrigacao() {	
+	public void inicializarIrrigacao() {	
+		
 		trajetoFeitoPeloRobo = robo.meuTrajeto(posicoesParaIrrigar);
-		ultimaOrientacaoDoRobo = robo.getOrientacaoAtual();	
-		return "Caminho: "+trajetoFeitoPeloRobo+"\nOrientação final: "+ ultimaOrientacaoDoRobo;
+		ultimaOrientacaoDoRobo = robo.getOrientacaoAtual();
+		
+		System.out.println("\n");
+		resolucaoDoProblema = "\tCaminho: "+ trajetoFeitoPeloRobo + "\n\tOrientação final: " + ultimaOrientacaoDoRobo ;
+		
+		System.out.println(resolucaoDoProblema);
+		horta.mostrarHortaCompleta(posicoesParaIrrigar, robo);
 	}
 	
-	public Horta getHorta() {
-		return horta;
-	}
-	public void setHorta(Horta horta) {
-		this.horta = horta;
-	}
-	public Robo getRobo() {
-		return robo;
-	}
-	public void setRobo(Robo robo) {
-		this.robo = robo;
-	}
-	public Posicao[] getPosicoesParaIrrigar() {
-		return posicoesParaIrrigar;
-	}
-	public void setPosicoesParaIrrigar(Posicao[] posicoesParaIrrigar) {
-		this.posicoesParaIrrigar = posicoesParaIrrigar;
-	}	
+	/**
+	 * Quero muito me tornar um Jazz :)
+	 * Abraços!
+	 */
 }
