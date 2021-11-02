@@ -10,23 +10,18 @@ public class Robo {
 	private String orientacaoAtual;
 	private Posicao posicaoAtual;
 	private ArrayList<String> acoes;
-	
+
 	// VARIAVEIS AUXILIARES
-	private String proximaOrientacao;
-	private String proximaAcao;
-
-	int novaLinha;
-	int novaColuna;
-
 	/* Reorientar o Robo */
 	private String orientacaoVerticalEmRelacaoAoCanteiroParaIrrigar;
 	private String orientacaoHorizontalEmRelacaoAoCanteiroParaIrrigar;
 	private String orientacaoParaIrrigacao;// PARA ONDE DEVO ME ORIENTAR
 
+	int novaLinha;
+	int novaColuna;
 	Random gerador = new Random();
 
-	public Robo() {
-	}
+	public Robo() {}
 
 	public Robo(Posicao posicaoAtual, String orientacaoAtual) {
 		this.orientacaoAtual = orientacaoAtual;
@@ -752,11 +747,5 @@ public class Robo {
 	}
 	public void setPosicaoAtual(Posicao posicaoAtual) {
 		this.posicaoAtual = posicaoAtual;
-	}
-	public ArrayList<String> getAcoes() {
-		return acoes;
-	}
-	public void setAcoes(ArrayList<String> acoes) {
-		this.acoes = acoes;
 	}
 }
